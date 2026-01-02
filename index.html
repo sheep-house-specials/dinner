@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sheep House Cocktails</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Great Vibes', cursive; }
+        <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+        body { font-family: 'Lucida Calligraphy', serif; background: linear-gradient(135deg, #f5f1e8 0%, #faf8f3 100%); color: #3a3a3a; line-height: 1.6; }
+        .menu-container { max-width: 1400px; margin: 0 auto; padding: 40px 20px; }
+        .header { text-align: center; padding: 60px 20px; background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); border-radius: 20px; margin-bottom: 50px; box-shadow: 0 4px 20px rgba(139, 90, 43, 0.1); border: 3px solid #d4a574; }
+        .header h1 { font-size: 4em; color: #8b5a2b; font-style: italic; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 4px; font-weight: 300; }
+        .header p { font-size: 1.5em; color: #6b6b6b; font-style: italic; }
+        .category { margin-bottom: 60px; }
+        .category-title { font-size: 2.5em; color: #8b5a2b; text-align: center; margin-bottom: 40px; padding-bottom: 15px; border-bottom: 2px solid #d4a574; text-transform: uppercase; letter-spacing: 2px; }
+        .cocktails-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .cocktail-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(139, 90, 43, 0.15); transition: transform 0.3s ease; border: 2px solid #e8dcc8; }
+        .cocktail-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(139, 90, 43, 0.25); }
+        .cocktail-image { width: 100%; height: 250px; background: linear-gradient(135deg, #f5e6d3 0%, #e8d5bd 100%); display: flex; align-items: center; justify-content: center; font-size: 3.5em; border-bottom: 3px solid #d4a574; }
+        .cocktail-content { padding: 22px; }
+        .cocktail-name { font-size: 1.7em; color: #8b5a2b; margin-bottom: 10px; font-weight: 600; }
+        .cocktail-description { color: #666; margin-bottom: 12px; font-size: 1.5em; line-height: 1.5; font-style: italic; }
+        .recipe-title { font-size: 1em; color: #8b5a2b; margin: 12px 0 8px 0; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .ingredient { padding: 6px 0; border-bottom: 1px solid #f0e8d8; display: flex; justify-content: space-between; font-size: 1.2em; }
+        .ingredient:last-child { border-bottom: none; }
+        .ingredient-name { color: #5a5a5a; font-weight: 500; }
+        .ingredient-amount { color: #8b5a2b; font-weight: 600; }
+        @media (max-width: 768px) { .cocktails-grid { grid-template-columns: 1fr; } .header h1 { font-size: 2.5em; } }
+        .welcome-section {
+    background: linear-gradient(135deg, #8b5a2b 0%, #d4a574 100%);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    margin-bottom: 50px;
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.3);
+}
+
+.welcome-section h2 {
+    font-size: 2.8em;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.welcome-section p {
+    font-size: 1.3em;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menu-highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.highlight-item {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.highlight-item:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-3px);
+}
+
+.highlight-item h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.highlight-item p {
+    font-size: 1em;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .welcome-section h2 {
+        font-size: 2em;
+    }
+    .menu-highlights {
+        grid-template-columns: 1fr;
+    }
+}
+    /* Floating Navigation Menu */
+.floating-nav {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+}
+
+.nav-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #8b5a2b 0%, #d4a574 100%);
+    border: 3px solid #d4a574;
+    box-shadow: 0 4px 20px rgba(139, 90, 43, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8em;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.nav-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 25px rgba(139, 90, 43, 0.6);
+}
+
+.nav-menu {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 8px 30px rgba(139, 90, 43, 0.3);
+    border: 2px solid #d4a574;
+    min-width: 220px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+    .nav-menu::-webkit-scrollbar {
+    width: 8px;
+}
+
+.nav-menu::-webkit-scrollbar-track {
+    background: #f5e6d3;
+    border-radius: 10px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb {
+    background: #d4a574;
+    border-radius: 10px;
+}
+
+.nav-menu::-webkit-scrollbar-thumb:hover {
+    background: #8b5a2b;
+}
+}
+
+.nav-menu.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.nav-menu a {
+    display: block;
+    padding: 12px 15px;
+    color: #8b5a2b;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    margin-bottom: 5px;
+}
+
+.nav-menu a:last-child {
+    margin-bottom: 0;
+}
+
+.nav-menu a:hover {
+    background: linear-gradient(135deg, #f5e6d3 0%, #e8d5bd 100%);
+    transform: translateX(-5px);
+}
+
+@media (max-width: 768px) {
+    .floating-nav {
+        bottom: 20px;
+        right: 20px;
+    }
+    .nav-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5em;
+    }
+}
+    </style>
+</head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<body>
+    <div class="menu-container">
+        <!-- ADD THE WELCOME SECTION HERE -->
+        <div class="welcome-section">
+    <h2>Welcome to Sheep's House!</h2>
+    <p>Tonight, we invite you on a culinary and cocktail journey. Here's to a night to be remembered!</p>
+    
+    <div class="menu-highlights">
+        <div class="highlight-item">
+            <h3>🍽️ Dinner Menu</h3>
+            <p>Appetizers, Main Courses & Desserts</p>
+        </div>
+        <div class="highlight-item">
+            <h3>🍸 House Cocktails</h3>
+            <p>Signature, Floral, Fruity & More</p>
+        </div>
+    </div>
+</div>
+        <div class="header">
+            <h1>Tonight's Menu</h1>
+            <p>Savor the flavors, enjoy the moment—bon appétit!</p>
+        </div>
+
+<div class="category" id="appetizers">
+    <h2 class="category-title">Appetizers</h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="cocktail-card">
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Nuts, Cheese & Ham Plate</h3>
+                        <p class="cocktail-description">A classic European-style charcuterie featuring premium cured ham, artisanal cheese selection, and roasted mixed nuts. The perfect start to your evening, offering rich, savory flavors that pair beautifully with any of our cocktails—ideal for sharing and setting the tone for a convivial gathering.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="main-course">
+    <h2 class="category-title">Main Course</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Margherita Pizza</h3>
+                        <p class="cocktail-description">A timeless Italian classic with fresh mozzarella, vibrant tomato sauce, fragrant basil, and a perfectly crispy crust. Simple yet sublime, this pizza celebrates quality ingredients and traditional preparation—comfort food that never goes out of style and pairs wonderfully with our citrus and herbal cocktails.</p>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Potato Salad</h3>
+                        <p class="cocktail-description">Creamy, comforting potato salad with tender potatoes, crisp vegetables, and a delicate dressing that brings everything together. A beloved side dish that adds heartiness to your meal—its mild, satisfying flavor makes it the perfect companion to both our lighter and bolder menu offerings.</p>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Saikyo-yaki Fish (西京焼き)</h3>
+                        <p class="cocktail-description">Delicate fish marinated in sweet miso paste and grilled to perfection, offering a beautiful balance of umami, sweetness, and tender flaky texture. This traditional Japanese dish showcases refined flavors and expert technique—an elegant choice that pairs exceptionally well with our sake-based cocktails and tea creations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="dessert">
+    <h2 class="category-title">Dessert</h2>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="cocktail-card">
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Matcha Cheesecake</h3>
+                        <p class="cocktail-description">A luxurious fusion dessert combining the earthy sophistication of premium matcha with rich, creamy cheesecake. The subtle bitterness of green tea beautifully balances the sweet creaminess—the perfect ending to your meal that pairs wonderfully with our coffee cocktails or as a standalone indulgence to savor slowly.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="header" id="cocktails">
+    <h1>Sheep House Cocktails</h1>
+            <p>Good spirits, better company—cheers to a night to remember!</p>
+        </div>
+
+<div class="category" id="signature">
+    <h2 class="category-title">Signature Collection</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="lavender-breeze.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Sheep House Signature</h3>
+                        <p class="cocktail-description">Elegant, balanced, floral citrus harmony. For guests who want "something special." A deeply aromatic experience where the floral notes of lavender dance perfectly with the lemon-lime sparkle of the cider. This drink is essentially a garden in a glass. It is highly recommended for the daydreamer—someone who enjoys reading a good book in a quiet corner and appreciates delicate, perfumed flavors over heavy alcohol kicks.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">2 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">1 part (20ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">2 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (20ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="floral">
+    <h2 class="category-title">Floral & Herbal Garden</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Lavender Twilight.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Lavender Twilight</h3>
+                        <p class="cocktail-description">A fragrant and effervescent cocktail that dances between floral elegance and citrus brightness. The lavender gin provides an aromatic foundation, while yuzu adds exotic tartness and orange juice brings sunny sweetness. Perfect for those who appreciate delicate, perfumed drinks with a sophisticated edge. If you love floral aromatics and aren't afraid of something beautifully fragrant, this is your gateway to an elevated drinking experience.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Garden Breeze.png" alt="Lavender Breeze Cocktail" style="max-height: 95%; max-width: 37%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Garden Breeze</h3>
+                        <p class="cocktail-description">This refreshing blend celebrates Japanese botanicals with a tea-infused twist. ROKU's six Japanese botanicals harmonize with tea spirit's earthy notes, balanced by citrus acidity.
+                            Ideal for contemplative drinkers who enjoy complex, botanical flavors with a zen-like balance. Choose this if you appreciate subtle sophistication and want to explore the intersection of Eastern and Western cocktail traditions.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Sakura Dream.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Sakura Dream</h3>
+                        <p class="cocktail-description">A delicate Japanese-inspired creation that whispers rather than shouts. The sake's subtle rice notes blend with lavender's perfume and yuzu's gentle tartness, topped with refreshing cider.
+For romantics and dreamers who prefer their cocktails light and poetic. If you're looking for something elegant and ethereal to start your evening or enjoy during intimate conversations, this delicate sparkler won't disappoint.
+
+                        </p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (45ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Eastern Orchard.png" alt="Lavender Breeze Cocktail" style="max-height: 95%; max-width: 30%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Eastern Orchard</h3>
+                        <p class="cocktail-description">Where Japanese craftsmanship meets orchard sweetness. The botanical complexity of ROKU gin embraces the honey-sweet umeshu, brightened by fresh citrus notes.
+Perfect for those who love fruit-forward drinks with an elegant, sophisticated backbone. This is your choice if you want something that tastes like sunshine in a glass while maintaining complexity that keeps you coming back for another sip.
+                        </p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Plum Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Lavender Quiet Evening.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Lavender Quiet Evening</h3>
+                        <p class="cocktail-description">A soothing, aromatic cocktail that wraps you in calm with gentle lavender gin and herbal notes creating a peaceful, meditative experience. Perfect for unwinding after a hectic day—order this when you want to slow down and savor a moment of tranquility, whether enjoying quiet conversation or solo reflection time.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">4 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">2 parts (20ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="berry">
+    <h2 class="category-title">Berry & Fruit Fusion</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Cassis Sunset.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Cassis Sunset</h3>
+                        <p class="cocktail-description">Berries meet blossoms in this aromatic sparkler. Cassis provides berry depth while lavender adds floral elegance, all balanced with grapefruit's gentle bitterness.
+                         If you appreciate drinks that unfold with each sip, revealing new flavors and keeping your taste buds engaged throughout.   
+                        </p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Purple Rain.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Purple Rain</h3>
+                        <p class="cocktail-description">A bold fusion of berries and wine with unexpected carbonation, where cassis and red wine create a deep, fruity foundation while yuzu adds brightness and Cola brings playful fizz. For adventurous souls who aren't afraid to mix tradition with innovation—choose this if you're the type who orders the most unusual thing on the menu and usually loves it, as this unconventional blend rewards the brave.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Red Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cola</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Plum Paradise.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Plum Paradise</h3>
+                        <p class="cocktail-description">Sweet umeshu meets crisp white wine in this elegant fusion, where the plum's honeyed notes are lifted by wine's acidity and citrus brightness, creating a sophisticated yet approachable drink. Perfect for wine lovers exploring the cocktail world—if you typically order wine but want to branch out without straying too far from your comfort zone, this bridges the gap beautifully between wine bar and cocktail lounge.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Plum Liqueur</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">White Wine</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Berry Garden Fizz.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Berry Garden Fizz</h3>
+                        <p class="cocktail-description">Berries meet blossoms in this aromatic sparkler, where cassis provides berry depth while lavender adds floral elegance, all balanced with grapefruit's gentle bitterness. For those who enjoy complex, layered drinks with a garden-fresh quality—this is your match if you appreciate drinks that unfold with each sip, revealing new flavors and keeping your taste buds engaged throughout.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (45ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Sakura Cassis Spritz.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Sakura Cassis Spritz</h3>
+                        <p class="cocktail-description">A delicate yet vibrant fusion where floral sakura essence meets rich cassis berries, creating a beautiful pink-hued sparkler that's both romantic and refreshing, with effervescent bubbles lifting the sweet-tart berry notes. Perfect for special occasions and those who love drinks that feel like a celebration—order this when you want something that looks stunning, tastes divine, and captures the fleeting beauty of cherry blossom season in a glass.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">White Wine</span><span class="ingredient-amount">4 parts (120ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Cassis Grapefruit Cooler.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%;: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Cassis Grapefruit Cooler</h3>
+                        <p class="cocktail-description">A refreshing balance of sweet and bitter where rich cassis berries meet grapefruit's bright, tangy bitterness, topped with sparkling bubbles that make it incredibly easy to drink on warm days. Perfect for those who appreciate bittersweet complexity and want something that's both sophisticated and thirst-quenching—order this when you need a palate cleanser that's more interesting than plain citrus, ideal for outdoor gatherings and lazy afternoons.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">4 parts (120ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="coffee">
+    <h2 class="category-title">Coffee & Tea House</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Midnight Espresso.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Midnight Espresso</h3>
+                        <p class="cocktail-description">A bold, caffeinated cocktail for night owls and coffee enthusiasts, where rich coffee liqueur meets dark rum's molasses notes, lightened with cola's caramel sweetness. This is for the person who wants dessert and energy in one glass—order this when it's late, you want to keep the party going, and you're craving something indulgent that doubles as a pick-me-up.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Coffee Liqueur</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Myer's Rum</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cola</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Tea Ceremony.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Tea Ceremony</h3>
+                        <p class="cocktail-description">A meditative drink that honors Japanese tea culture, where tea spirit's earthy depth combines with sake's smoothness, brightened by yuzu's exotic citrus. For mindful drinkers who appreciate subtle complexity and cultural fusion—choose this when you want a drink that encourages slow sipping and contemplation, the liquid equivalent of a peaceful moment in a traditional tea house.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Rum & Coffee Cloud.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Rum & Coffee Cloud</h3>
+                        <p class="cocktail-description">Where tropical vibes meet coffee shop cool, dark rum and coffee create warmth while orange juice adds sunshine and cider brings refreshing fizz. Perfect for brunch lovers and those who can't choose between mimosa and espresso martini—if you want the best of both worlds, energizing and refreshing, sophisticated and fun, this is your answer.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Myer's Rum</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Coffee Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Oriental Brew.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Oriental Brew</h3>
+                        <p class="cocktail-description">An East-meets-West fusion celebrating tea and fruit, where tea spirit's botanical notes embrace plum's sweetness, with white wine adding elegance. For sophisticated palates that appreciate nuanced, multi-layered flavor profiles—this is your drink if you enjoy conversations about terroir, appreciate craft, and want something that reveals new dimensions with each taste.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Plum Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">White Wine</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Midnight Cafe Highball.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Midnight Café Highball</h3>
+                        <p class="cocktail-description">A dangerously smooth caffeinated creation where bold coffee liqueur meets the effervescence of a classic highball, creating a drink that's both energizing and refreshing with subtle sweetness. Perfect for night owls who want to extend their evening—order this when you need a second wind but want something more sophisticated than an energy drink, ideal for late-night conversations and extended gatherings.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Coffee Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cola</span><span class="ingredient-amount">4 parts (120ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Smoky Tea Martini.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Smoky Tea Martini</h3>
+                        <p class="cocktail-description">An elegant and mysterious cocktail where tea spirit's earthy, slightly smoky notes take center stage in a classic martini structure, creating a contemplative sipper with unexpected depth. For adventurous drinkers who appreciate unconventional martinis and Eastern influences—choose this when you want to impress with your refined palate and aren't afraid of something bold, sophisticated, and conversation-starting.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">1 part (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">3 parts (45ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Tea Plum Collins.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Tea Plum Collins</h3>
+                        <p class="cocktail-description">A refreshing twist on the classic Collins where tea spirit's botanical character harmonizes with plum liqueur's honeyed sweetness, lengthened with sparkling soda for a tall, thirst-quenching experience. Perfect for those who love traditional cocktails with an Asian twist—order this when you want something familiar yet exciting, ideal for afternoon sipping when you need refreshment with a touch of elegance.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">2 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Plum Liqueur</span><span class="ingredient-amount">2 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (20ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Coffee Rum Old Fashioned.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Coffee Rum Old Fashioned</h3>
+                        <p class="cocktail-description">A rich, spirit-forward take on the timeless classic where dark rum's molasses depth meets coffee liqueur's roasted notes, stirred down for a smooth, contemplative sipper. For whiskey lovers ready to explore beyond bourbon—choose this when you want the comfort of an Old Fashioned with unexpected complexity, perfect for slow sipping by dim lighting while discussing life's bigger questions.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Coffee Liqueur</span><span class="ingredient-amount">1 part (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Myer's Rum</span><span class="ingredient-amount">4 parts (60ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Coffee Cassis Dessert.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Coffee Cassis Dessert</h3>
+                        <p class="cocktail-description">An indulgent after-dinner delight where coffee liqueur's bold roasted character meets cassis's sweet berry richness, creating a drink that tastes like liquid tiramisu with a berry twist. Perfect for those with a sweet tooth who want their dessert in drinkable form—order this when you're skipping the dessert menu but still crave something decadent, rich, and satisfying to end your meal.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Coffee Liqueur</span><span class="ingredient-amount">2 parts (40ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis</span><span class="ingredient-amount">1 part (20ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Milk (optional)</span><span class="ingredient-amount">To taste</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Tea Wine Negroni.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Tea Wine Negroni</h3>
+                        <p class="cocktail-description">A sophisticated reinterpretation of the Italian classic where tea spirit replaces gin and wine adds complexity, creating a bittersweet aperitif with earthy, botanical depth. For Negroni enthusiasts seeking innovation and wine lovers who appreciate bitter cocktails—choose this when you want the complexity of a Negroni with unexpected Asian elegance, perfect for pre-dinner drinks and impressing cocktail aficionados.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Tea Spirit</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Red Wine</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="category" id="citrus">
+            <h2 class="category-title">Citrus Grove</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Yuzu Spritz.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Yuzu Spritz</h3>
+                        <p class="cocktail-description">A Japanese take on the classic spritz, where yuzu's unique citrus flavor combines with crisp white wine and bubbly cider for maximum refreshment. Perfect for aperitivo hour and those who love light, effervescent drinks with Asian flair—order this when you want something that's sophisticated yet dangerously easy to drink, ideal for sunny afternoons and first dates.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">White Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Grapefruit Garden.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Grapefruit Garden</h3>
+                        <p class="cocktail-description">Bright, zesty, and impossibly refreshing, botanical gin meets grapefruit's gentle bitterness, enhanced with lemon's tartness and finished with bubbles. Made for citrus lovers who want complexity beyond a basic sour—if you're the type who squeezes extra lemon on everything and loves that bright, zingy feeling, this cocktail was made specifically for you.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Orange Blossom.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Orange Blossom</h3>
+                        <p class="cocktail-description">A citrus bouquet in a glass, where orange dominates with its sunny character while lavender adds floral perfume and yuzu provides exotic depth. For those who want their vitamin C with elegance and aromatics—this is your pick if you love fresh-squeezed orange juice but want something more grown-up and sophisticated, breakfast vibes elevated to cocktail hour.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">2.5 parts (75ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Lemon Drop Paradise.png" alt="Lavender Breeze Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Lemon Drop Paradise</h3>
+                        <p class="cocktail-description">Pucker up for this citrus powerhouse, where layers of lemon and yuzu create mouth-watering acidity, balanced by botanical gin and sweetened with bubbles. Perfect for those who love their drinks tart, bright, and refreshing—if your favorite candy is anything sour and you believe more citrus is always better, this lip-smacking cocktail will be your new obsession.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1.5 parts (45ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category" id="citrus">
+            <h2 class="category-title">Wine & Sake Bar</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Sake Sunrise.png" alt="Sake Sunrise Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Sake Sunrise</h3>
+                        <p class="cocktail-description">Japanese elegance meets tropical vibes, where sake's delicate rice notes blend with orange juice's brightness while cassis adds berry depth and visual drama. For those who want to explore sake beyond traditional serving styles—this is your gateway drink if you're curious about sake but prefer fruity, approachable cocktails, as it makes sake fun and accessible.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Red Velvet.png" alt="Red Velvet Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Red Velvet</h3>
+                        <p class="cocktail-description">A bold, fruit-forward wine cocktail with unexpected fizz, where red wine's tannins soften with cassis and orange, while Cola adds playful carbonation. For red wine lovers ready to experiment beyond sangria—order this when you want the comfort of your favorite red wine but with a playful twist that makes it perfect for casual gatherings and warm weather.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Red Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cola</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="White Garden.png" alt="White Garden Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">White Garden</h3>
+                        <p class="cocktail-description">Crisp, floral, and endlessly sophisticated, white wine forms an elegant base enhanced by lavender's perfume and citrus complexity. Perfect for garden parties and those who appreciate refined, aromatic cocktails—if you're someone who stops to smell flowers and appreciates the finer details in life, this elegant creation speaks your language.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">White Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Tokyo Highball.png" alt="Tokyo Highball Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Tokyo Highball</h3>
+                        <p class="cocktail-description">A Japanese-inspired highball that's dangerously drinkable, where sake and gin create a smooth, botanical base while citrus and cider make it refreshing enough to go all night. For highball enthusiasts seeking Japanese refinement—this is the drink to order when you're settling in for the long haul, as it's so smooth and refreshing you'll barely notice you're drinking, but you'll definitely feel the good vibes.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (60ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category" id="citrus">
+            <h2 class="category-title">Beer Garden</h2>
+            <div class="cocktails-grid">
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Lavender Beer Shandy.png" alt="Lavender Beer Shandy Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Lavender Beer Shandy</h3>
+                        <p class="cocktail-description">A refreshing twist on the classic shandy where crisp beer meets lavender gin's floral aromatics and citrus brightness, creating a light, sessionable drink perfect for warm afternoons. For beer lovers who want something more sophisticated than a simple lager—order this when you're at a casual gathering but want to elevate your beer game with botanical complexity that still feels approachable and thirst-quenching.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">3 parts (90ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lavender Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Yuzu Beer Mist.png" alt="Yuzu Beer Mist Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Yuzu Beer Mist</h3>
+                        <p class="cocktail-description">A zesty Asian-inspired beer cocktail where yuzu liqueur's exotic citrus character brightens the malty depth of beer, creating a refreshing fusion that's both familiar and intriguing. Perfect for adventurous beer drinkers who appreciate Japanese flavors—choose this when you want the comfort of beer with an unexpected citrus twist that makes every sip feel like discovering something new, ideal for pairing with spicy Asian cuisine.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">4 parts (120ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Chilsung Cider</span><span class="ingredient-amount">Top (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Plum Beer Radler.png" alt="Plum Beer Radler Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Plum Beer Radler</h3>
+                        <p class="cocktail-description">A sweet and malty fusion where plum liqueur's honeyed richness embraces beer's toasted grain notes, balanced with citrus for a delightfully drinkable radler-style creation. For those who find regular beer too bitter and want something fruity yet substantial—order this when you're looking for the perfect bridge between fruity cocktails and beer, making it ideal for beer skeptics and fruit lovers alike.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">3 parts (90ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Plum Liqueur</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Cassis Beer Sunset.png" alt="Cassis Beer Sunset Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Cassis Beer Sunset</h3>
+                        <p class="cocktail-description">A vibrant and unexpected combination where cassis liqueur's berry sweetness meets beer's bitter carbonation, creating a beautiful gradient drink that's both eye-catching and delicious. Perfect for Instagram moments and those who love experimenting with bold flavor combinations—choose this when you want to surprise your taste buds and create conversation, as this purple-tinged beer cocktail defies expectations in the best way possible.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">4 parts (120ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Cassis Liqueur</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Orange Juice</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Grapefruit Beer Refresher.png" alt="Grapefruit Beer Refresher Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Grapefruit Beer Refresher</h3>
+                        <p class="cocktail-description">A bright and crisp combination where grapefruit wine's gentle bitterness complements beer's hoppy character, enhanced with botanical gin for added complexity and depth. For IPA lovers and citrus enthusiasts who appreciate bitter-forward drinks—order this when you want maximum refreshment with layered bitterness that's sophisticated rather than overwhelming, perfect for hot days and outdoor gatherings.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">3 parts (90ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Grapefruit Wine</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">ROKU Gin</span><span class="ingredient-amount">1 part (30ml)</span></div>
+                    </div>
+                </div>
+                <div class="cocktail-card">
+                    <div class="cocktail-image"><img src="Sake Beer Fusion.png" alt="Sake Beer Fusion Cocktail" style="max-height: 90%; max-width: 50%; height: auto; display: block;"></div>
+                    <div class="cocktail-content">
+                        <h3 class="cocktail-name">Sake Beer Fusion</h3>
+                        <p class="cocktail-description">An East-meets-West harmony where sake's smooth rice character blends seamlessly with beer's carbonation and malt, creating a uniquely Japanese drinking experience that honors both traditions. For those curious about sake but love their beer—this is your perfect introduction as it combines the best of both worlds, offering smooth drinkability with familiar carbonation, ideal for exploring Japanese drinking culture without leaving your comfort zone.</p>
+                        <div class="recipe-title">Recipe</div>
+                        <div class="ingredient"><span class="ingredient-name">Beer</span><span class="ingredient-amount">3 parts (90ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Sake</span><span class="ingredient-amount">2 parts (60ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Yuzu Liqueur</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                        <div class="ingredient"><span class="ingredient-name">Lemon Sour</span><span class="ingredient-amount">0.5 parts (15ml)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Floating Navigation Menu -->
+<div class="floating-nav">
+    <div class="nav-menu" id="navMenu">
+    <div style="font-weight: bold; color: #8b5a2b; padding: 8px 15px; border-bottom: 2px solid #d4a574; margin-bottom: 8px; font-size: 0.95em;">TONIGHT'S MENU</div>
+    <a href="#appetizers">Appetizers</a>
+    <a href="#main-course">Main Course</a>
+    <a href="#dessert">Dessert</a>
+    <div style="font-weight: bold; color: #8b5a2b; padding: 8px 15px; border-bottom: 2px solid #d4a574; margin: 8px 0; font-size: 0.95em;">COCKTAILS</div>
+    <a href="#cocktails">Sheep House Cocktails</a>
+    <a href="#signature">Signature Collection</a>
+    <a href="#floral">Floral & Herbal Garden</a>
+    <a href="#berry">Berry & Fruit Fusion</a>
+    <a href="#coffee">Coffee & Tea House</a>
+    <a href="#citrus">Citrus Grove</a>
+    <a href="#wine">Wine & Sake Bar</a>
+    <a href="#beer">Beer Garden</a>
+</div>
+    <button class="nav-toggle" id="navToggle">☰</button>
+</div>
+
+<script>
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    navToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        navToggle.textContent = navMenu.classList.contains('active') ? '✕' : '☰';
+    });
+    
+    // Close menu when clicking a link
+    navMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            navToggle.textContent = '☰';
+        });
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!navToggle.contains(e.target) && !navMenu.contains(e.target)) {
+            navMenu.classList.remove('active');
+            navToggle.textContent = '☰';
+        }
+    });
+</script>
+
+</body>
+</html>
